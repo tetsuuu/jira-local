@@ -1,0 +1,64 @@
+version: '3.4'
+services:
+  jira:
+    image: cptactionhank/atlassian-jira:latest
+    restart: always
+    links:
+      - database
+    volumes:
+      - jira-data:/var/atlassian/jira
+
+  confluence:
+    image: cptactionhank/atlassian-confluence:6.9.0
+    restart: always
+    links:
+      - database
+    volumes:
+      - confluence-data:/var/atlassian/confluence
+
+  bitbucket:
+    image: atlassian/bitbucket-server:5.10.1
+    restart: always
+    links:
+      - database
+    volumes:
+      - bitbucket-data:/var/atlassian/application-data/bitbucket
+
+  postgres:
+    image: postgres:9.4
+    restart: always
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  nginx:
+    image: nginx
+    restart: always
+    ports:
+      - "80:80"
+    links:
+      - jira
+      - confluence
+      - bitbucket
+    volumes:
+    - ./:/src
+    command: ./src/scripts/run_nginx.sh
+volumes:
+  jira-data:
+   driver_opts:
+     type: none
+     device: /home/docker/data/jira
+     o: bind
+  confluence-data:
+   driver_opts:
+     type: none
+     device: /home/docker/data/confluence
+     o: bind
+  bitbucket-data:
+   driver_opts:
+     type: none
+     device: /home/docker/data/bitbucket
+     o: bind
+  postgres-data:
+   driver_opts:
+     type: none
+     device: /home/docker/data/postgres
+     o: bind
