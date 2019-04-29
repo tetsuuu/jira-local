@@ -39,7 +39,9 @@ services:
       - confluence
       - bitbucket
     volumes:
-    - ./:/src
+      - ./:/src
+    environment:
+      - DOMAIN=ownlocal.com
     command: ./src/scripts/run_nginx.sh
 volumes:
   jira-data:

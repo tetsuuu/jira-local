@@ -37,7 +37,7 @@ http {
 
     server {
         listen       80;
-        server_name  jira.ownlocal.com www.jira.ownlocal.com;
+        server_name  jira.${DOMAIN} www.jira.${DOMAIN};
 
         location / {
             proxy_pass              http://jira:8080;
@@ -54,7 +54,7 @@ http {
 
     server {
         listen       80;
-        server_name  wiki.ownlocal.com www.wiki.ownlocal.com;
+        server_name  wiki.${DOMAIN} www.wiki.${DOMAIN};
 
         location / {
             proxy_pass                      http://confluence:8090;
@@ -70,7 +70,7 @@ http {
 
     server {
         listen       80;
-        server_name  bitbucket.ownlocal.com www.bitbucket.ownlocal.com;
+        server_name  bitbucket.${DOMAIN} www.bitbucket.${DOMAIN};
 
         location / {
             proxy_pass              http://bitbucket:7990;
